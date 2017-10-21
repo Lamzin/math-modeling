@@ -53,12 +53,15 @@ class Modeling(QTabWidget):
                 self.tab2_graphics_scene.addItem(line)
         self.tab2_graphics.mouseMoveEvent = graphics_mouse_move
 
-        def table_cell_clicked(row, column):
+        def table_cell_click(row, column):
             if column == 2:
                 self.points = self.points[:row] + self.points[row + 1:]
                 self.tab2_table.removeRow(row)
                 graphics_draw()
-        self.tab2_table.cellClicked.connect(table_cell_clicked)
+        self.tab2_table.cellClicked.connect(table_cell_click)
+
+        self.tab2_button_prev.clicked.connect(lambda: self.setCurrentIndex(0))  # because of page index start from 0
+        self.tab2_button_next.clicked.connect(lambda: self.setCurrentIndex(2))
 
 
 if __name__ == '__main__':
