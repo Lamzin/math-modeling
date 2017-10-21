@@ -26,6 +26,6 @@ class MathModelingSolver(object):
     def solve(self):
         '''
         Will be called from `main` code.
-        :return(lambda x ,y, t): math modeling solution.
+        :return(lambda x, y, t): math modeling solution.
         '''
         pass
