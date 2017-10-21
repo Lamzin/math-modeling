@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>947</width>
-    <height>582</height>
+    <width>1300</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>TabWidget</string>
   </property>
   <property name="currentIndex">
-   <number>0</number>
+   <number>2</number>
   </property>
   <widget class="QWidget" name="tab1">
    <attribute name="title">
@@ -24,8 +24,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>480</y>
-      <width>921</width>
+      <y>600</y>
+      <width>1271</width>
       <height>61</height>
      </rect>
     </property>
@@ -62,9 +62,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>120</y>
-      <width>921</width>
-      <height>341</height>
+      <y>180</y>
+      <width>1271</width>
+      <height>401</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
@@ -188,8 +188,8 @@
      <rect>
       <x>10</x>
       <y>90</y>
-      <width>921</width>
-      <height>371</height>
+      <width>1271</width>
+      <height>491</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -203,16 +203,13 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>320</width>
+         <width>330</width>
          <height>16777215</height>
         </size>
        </property>
-       <property name="rowCount">
-        <number>0</number>
-       </property>
-       <property name="columnCount">
-        <number>3</number>
-       </property>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
        <column>
         <property name="text">
          <string>x</string>
@@ -225,7 +222,7 @@
        </column>
        <column>
         <property name="text">
-         <string>Видалити</string>
+         <string>del</string>
         </property>
        </column>
       </widget>
@@ -245,11 +242,164 @@
      </item>
     </layout>
    </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>600</y>
+      <width>1271</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="tab2_button_prev">
+       <property name="text">
+        <string>Назад</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="tab2_button_next">
+       <property name="text">
+        <string>Далі</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QWidget" name="tab3">
    <attribute name="title">
     <string>Початкові умови</string>
    </attribute>
+   <widget class="QWidget" name="horizontalLayoutWidget_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>1271</width>
+      <height>491</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QTableWidget" name="tab3_table">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>330</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <column>
+        <property name="text">
+         <string>x</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>y</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>exact</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>sensor</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>del</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGraphicsView" name="tab3_graphics">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_5">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>600</y>
+      <width>1271</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="tab3_button_prev">
+       <property name="text">
+        <string>Назад</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="tab3_button_next">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Далі</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QWidget" name="tab4">
    <attribute name="title">
