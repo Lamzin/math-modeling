@@ -1,3 +1,5 @@
+#  -*- coding: utf-8 -*-
+
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTabWidget, QTableWidget, QTableWidgetItem
 from PyQt5.QtWidgets import QGraphicsScene, QGraphicsEllipseItem, QGraphicsLineItem, QGraphicsWidget
@@ -6,6 +8,8 @@ from PyQt5 import uic
 
 import os
 import sys
+
+from modeling import MathModelingSolver
 
 
 class Modeling(QTabWidget):
