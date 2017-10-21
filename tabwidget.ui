@@ -18,7 +18,7 @@
   </property>
   <widget class="QWidget" name="tab1">
    <attribute name="title">
-    <string>Функції зовнішньо динамічних збурень</string>
+    <string>Функції</string>
    </attribute>
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
@@ -186,12 +186,17 @@
   </widget>
   <widget class="QWidget" name="tab3">
    <attribute name="title">
-    <string>Page</string>
+    <string>Початкові умови</string>
    </attribute>
   </widget>
   <widget class="QWidget" name="tab4">
    <attribute name="title">
-    <string>Page</string>
+    <string>Крайові умови</string>
+   </attribute>
+  </widget>
+  <widget class="QWidget" name="tab5">
+   <attribute name="title">
+    <string>Результат</string>
    </attribute>
   </widget>
  </widget>
