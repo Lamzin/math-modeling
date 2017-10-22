@@ -19,12 +19,16 @@ class Modeling(QTabWidget):
         uic.loadUi(ui_path, self)
 
         self.__init__common__stuff__()
+        self.__init__tab1__stuff__()
         self.__init__tab2__stuff__()
         self.__init__tab3__stuff__()
 
     def __init__common__stuff__(self):
         self.spatial_area = []
         self.initial_conditions = []
+
+    def __init__tab1__stuff__(self):
+        self.tab1_button_next.clicked.connect(lambda: self.setCurrentIndex(1))
 
     def __init__tab2__stuff__(self):
         self.tab2_graphics_scene = QGraphicsScene()
