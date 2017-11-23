@@ -29,11 +29,14 @@
       <height>61</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_1">
      <item>
-      <spacer name="horizontalSpacer">
+      <spacer name="horizontalSpacer_1">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -42,6 +45,13 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="tab1_button_calc">
+       <property name="text">
+        <string>Порахувати</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="tab1_button_next">
@@ -62,82 +72,23 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>180</y>
+      <y>10</y>
       <width>1271</width>
-      <height>401</height>
+      <height>581</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="3" column="2">
-      <widget class="QLineEdit" name="lineEdit_4"/>
-     </item>
-     <item row="2" column="2">
-      <widget class="QLineEdit" name="lineEdit_3"/>
-     </item>
-     <item row="4" column="2">
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Maximum</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
+    <layout class="QGridLayout" name="gridLayout_1">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
+     </property>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label_L_2">
+       <property name="maximumSize">
         <size>
-         <width>20</width>
-         <height>40</height>
+         <width>16777215</width>
+         <height>20</height>
         </size>
        </property>
-      </spacer>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Диференціальний оператор</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Функція Гріна</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QLineEdit" name="lineEdit_2"/>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLineEdit" name="lineEdit"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="label_5">
        <property name="text">
         <string>L</string>
        </property>
@@ -146,8 +97,18 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="2">
+      <widget class="QLineEdit" name="lineEdit_G"/>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLineEdit" name="lineEdit_L">
+       <property name="text">
+        <string>2*x*diff(f, x, y) + diff(f, x)</string>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="1">
-      <widget class="QLabel" name="label_6">
+      <widget class="QLabel" name="label_G_2">
        <property name="text">
         <string>G(x, y, t)</string>
        </property>
@@ -156,8 +117,57 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QLabel" name="label_7">
+     <item row="2" column="2">
+      <widget class="QLineEdit" name="lineEdit_y">
+       <property name="text">
+        <string>y*x**2 + x*y + t</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_G">
+       <property name="text">
+        <string>Функція Гріна</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_L">
+       <property name="text">
+        <string>Диференціальний
+оператор</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_y">
+       <property name="text">
+        <string>Точний розв'язок</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_u">
+       <property name="text">
+        <string>Функція зовнішних
+динамічних збурень</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="label_u_2">
        <property name="text">
         <string>u(x, y, t)</string>
        </property>
@@ -166,8 +176,8 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QLabel" name="label_8">
+     <item row="2" column="1">
+      <widget class="QLabel" name="label_y_2">
        <property name="text">
         <string>y(x, y, t)</string>
        </property>
@@ -175,6 +185,9 @@
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QLineEdit" name="lineEdit_u"/>
      </item>
     </layout>
    </widget>
@@ -306,7 +319,7 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>330</width>
+         <width>320</width>
          <height>16777215</height>
         </size>
        </property>
@@ -405,6 +418,184 @@
    <attribute name="title">
     <string>Крайові умови</string>
    </attribute>
+   <widget class="QWidget" name="horizontalLayoutWidget_6">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>1271</width>
+      <height>491</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <item>
+      <widget class="QTableWidget" name="tab4_table">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>380</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="columnCount">
+        <number>6</number>
+       </property>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <column>
+        <property name="text">
+         <string>x</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>y</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>t</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>exact</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>sensor</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>del</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGraphicsView" name="tab4_graphics">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_7">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>600</y>
+      <width>1271</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_8">
+     <item>
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="tab4_button_prev">
+       <property name="text">
+        <string>Назад</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="tab4_button_next">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Далі</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_8">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>520</y>
+      <width>331</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
+     <item>
+      <widget class="QLabel" name="label_T">
+       <property name="text">
+        <string>T</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_T">
+       <property name="maximum">
+        <double>1000.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>100.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_t">
+       <property name="text">
+        <string>t</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_t">
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="maximum">
+        <double>100.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <zorder>horizontalLayoutWidget_6</zorder>
+   <zorder>horizontalLayoutWidget_7</zorder>
+   <zorder>horizontalSpacer_4</zorder>
+   <zorder>horizontalLayoutWidget_8</zorder>
   </widget>
   <widget class="QWidget" name="tab5">
    <attribute name="title">

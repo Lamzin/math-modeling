@@ -3,12 +3,20 @@ import numpy as np
 x = Symbol('x')
 y = Symbol('y')
 t = Symbol('t')
+a = Symbol('a')
+b = Symbol('b')
+c = Symbol('c')
+
+
+dict_L_and_G = {}
+
 u = eval('y*x**2 + y*x')
 # yprime = diff(u,x,y)
 # F
 # yprime = eval('diff(y*x**2 + y*x, x, y) ')
 
 q = eval('Abs(x)')
+
 qq = lambdify(x, q, 'numpy')
 print(qq(2))
 
@@ -17,16 +25,18 @@ Y = eval('y*x**2 + x*y')
 f = Y
 LU = eval(L)
 print(LU)
-I = integrate('x*y', (x, 0, Y))
+I = integrate('x*y', (x, 0,Y ), (y, 0,1))
 print(I)
 
 
 f = lambdify((x, y), LU, 'numpy')
 
-f_la = lambda x, y: f(x, y)
+f_la = lambda x,y :f(x, y)
 print(f_la(5, 1))
 
-a, b = 1, 0
-x_A, x_B = 1, 2
-I = integrate('x', (y, 0, b + a * x), (x, x_B, x_A))
+a,b=1,0
+x_A,x_B = 1,2
+I = integrate('x',(y, 0, b+a*x),(x,x_B,x_A))
 print(I)
+
+
