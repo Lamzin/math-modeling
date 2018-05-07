@@ -21,6 +21,7 @@ class Modeling(QTabWidget):
         self.__init__tab2__stuff__()
         self.__init__tab3__stuff__()
         self.__init__tab4__stuff__()
+        self.__init__tab5__stuff__()
 
     def __init__tab1__stuff__(self):
         def calc():
@@ -189,6 +190,16 @@ class Modeling(QTabWidget):
 
         self.tab4_button_prev.clicked.connect(lambda: self.setCurrentIndex(2))  # because of page index start from 0
         self.tab4_button_next.clicked.connect(lambda: self.setCurrentIndex(4))
+
+    def __init__tab5__stuff__(self):
+        def calc():
+            print('clicked: {}'.format(self.lineEdit_y.text()))
+
+            from subprocess import Popen, call
+            call(["pkill python3 /Users/lama/git/lamzin/3d/vpython_example.py"], shell=True)
+            Popen(['python3 /Users/lama/git/lamzin/3d/vpython_example.py "{}"'.format(self.lineEdit_y.text())], shell=True)
+
+        self.showResults.clicked.connect(calc)
 
 
 if __name__ == '__main__':
