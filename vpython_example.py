@@ -4,7 +4,8 @@
 
 import sys
 import pickle
-from vpython import scene, cylinder, text, vec, cross, quad, vertex, color, sin, cos, rate
+from vpython import scene, cylinder, text, vec, cross, vector
+from vpython import quad, vertex, color, sin, cos, rate, sphere
 
 # from sympy import *
 
@@ -35,7 +36,7 @@ In GlowScript programs:
 # MathJax.Hub.Queue(["Typeset",MathJax.Hub]) # format the LaTeX; see http://www.glowscript.org/docs/VPythonDocs/MathJax.html
 
 class plot3D:
-    def __init__(self, f, xmin, xmax, ymin, ymax, zmin=0, zmax=1):
+    def __init__(self, f, xmin, xmax, ymin, ymax, spatial_area, zmin=0, zmax=1):
         # The x axis is labeled y, the z axis is labeled x, and the y axis is labeled z.
         # This is done to mimic fairly standard practive for plotting
         #     the z value of a function of x and y.
@@ -56,33 +57,17 @@ class plot3D:
             self.ymax = 1
         else:
             self.ymax = ymax
+        if not zmin:
+            self.zmin = 0
+        else:
+            self.zmin = zmin
+        if not zmax:
+            self.zmax = 1
+        else:
+            self.zmax = zmax
 
-        self.data_path = 'data'
-        with open(self.data_path + '/spatial_area', 'rb') as fp:
-            self.spatial_area = [(p[0] / 10, p[1] / 10) for p in pickle.load(fp)]
+        self.spatial_area = spatial_area
         self.count_vertex = len(self.spatial_area)
-
-        self.zmin = self.f(self.spatial_area[0][0] * 10, self.spatial_area[0][1] * 10)
-        self.zmax = self.zmin
-
-        global t, T
-        for x1, x2 in self.spatial_area:
-            x1 *= 10
-            x2 *= 10
-            val = self.f(x1, x2)
-            if val < self.zmin:
-                self.zmin = val
-            if val > self.zmax:
-                self.zmax = val
-            copy_t = t
-            t = T
-            val = self.f(x1, x2)
-            if val < self.zmin:
-                self.zmin = val
-            if val > self.zmax:
-                self.zmax = val
-            t = copy_t
-        print(self.zmin, self.zmax)
 
 
         R = L / 100
@@ -92,9 +77,9 @@ class plot3D:
         zaxis = cylinder(pos=vec(0, 0, 0), axis=vec(0, d, 0), radius=R, color=color.yellow)
         k = 1.02
         h = 0.05 * L
-        text(pos=xaxis.pos + k * xaxis.axis, text='x', height=h, align='center', billboard=True, emissive=True)
-        text(pos=yaxis.pos + k * yaxis.axis, text='y', height=h, align='center', billboard=True, emissive=True)
-        text(pos=zaxis.pos + k * zaxis.axis, text='z', height=h, align='center', billboard=True, emissive=True)
+        text(pos=xaxis.pos + k * xaxis.axis, text='x1', height=h, align='center', billboard=True, emissive=True)
+        text(pos=yaxis.pos + k * yaxis.axis, text='x2', height=h, align='center', billboard=True, emissive=True)
+        text(pos=zaxis.pos + k * zaxis.axis, text='f', height=h, align='center', billboard=True, emissive=True)
 
         self.vertices = []
         for x in range(L):
@@ -160,16 +145,18 @@ T = 100
 t = 0
 dt = 1
 
-path = 'data'
-with open(path + '/x_1', 'rb') as fp:
+data_path = 'data'
+with open(data_path + '/spatial_area', 'rb') as fp:
+    spatial_area = [(p[0] / 10, p[1] / 10) for p in pickle.load(fp)]
+with open(data_path + '/x_1', 'rb') as fp:
     x_1 = pickle.load(fp)
-with open(path + '/x_2', 'rb') as fp:
+with open(data_path + '/x_2', 'rb') as fp:
     x_2= pickle.load(fp)
-with open(path + '/t', 'rb') as fp:
+with open(data_path + '/t', 'rb') as fp:
     t_ = pickle.load(fp)
-with open(path + '/sensor', 'rb') as fp:
+with open(data_path + '/sensor', 'rb') as fp:
     sensor = pickle.load(fp)
-with open(path + '/exact', 'rb') as fp:
+with open(data_path + '/exact', 'rb') as fp:
     exact = pickle.load(fp)
 
 
@@ -183,7 +170,46 @@ def f(x, y):
         res += (sensor[i] - exact[i]) / (1 + c*((x - x_1[i])**2 + (y - x_2[i])**2 + (t - t_[i])**2))
     return res
 
-p = plot3D(f, 0, 1000, 0, 1000)  # function, xmin, xmax, ymin, ymax (defaults 0, 1, 0, 1)
+def get_zmin_zmax(spatial_area):
+    zmin = f(spatial_area[0][0] * 10, spatial_area[0][1] * 10)
+    zmax = zmin
+
+    global t, T
+
+    for x1, x2 in spatial_area:
+        x1 *= 10
+        x2 *= 10
+        val = f(x1, x2)
+        if val < zmin:
+            zmin = val
+        if val > zmax:
+            zmax = val
+        copy_t = t
+        t = T
+        val = f(x1, x2)
+        if val < zmin:
+            zmin = val
+        if val > zmax:
+            zmax = val
+        t = copy_t
+    return zmin, zmax
+
+zmin, zmax = get_zmin_zmax(spatial_area)
+
+for i in range(len(exact)):
+    ball_exact = sphere(
+        color=color.green,
+        pos=vec(x_2[i] / 10, (exact[i] - zmin) * 100 / (zmax - zmin), x_1[i] / 10),
+        radius=0.5
+    )
+    ball_f = sphere(
+        color=color.red,
+        # pos=vec(x_2[i] / 10, (sensor[i] - zmin) * 100 / (zmax - zmin), x_1[i] / 10),
+        pos=vec(x_2[i] / 10, (f(x_1[i], x_2[i]) - zmin) * 100 / (zmax - zmin), x_1[i] / 10),
+        radius=0.5
+    )
+print(zmin, zmax, len(spatial_area))
+p = plot3D(f, 0, 1000, 0, 1000, spatial_area=spatial_area, zmin=zmin, zmax=zmax)  # function, xmin, xmax, ymin, ymax (defaults 0, 1, 0, 1)
 
 
 run = True
