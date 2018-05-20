@@ -198,12 +198,13 @@ class Modeling(QTabWidget):
             from subprocess import Popen, call
 
             dir_path = os.path.dirname(os.path.realpath(__file__))
-
+            print(os.path.join(dir_path, 'vpython_example.py'))
             if os.name == 'nt':  # windows
-                call(["taskkill python3 {}".format(os.path.join(dir_path, 'vpython_example.py'))], shell=True)
+                pass
+                # call(["taskkill python {}".format(os.path.join(dir_path, 'vpython_example.py'))], shell=True)
             else:
-                call(["pkill python3 {}".format(os.path.join(dir_path, 'vpython_example.py'))], shell=True)
-            Popen(['python3 {} "{}"'.format(os.path.join(dir_path, 'vpython_example.py'), self.lineEdit_y.text())], shell=True)
+                call(["pkill python {}".format(os.path.join(dir_path, 'vpython_example.py'))], shell=True)
+            Popen(["python", os.path.join(dir_path, 'vpython_example.py'), self.lineEdit_y.text()], shell=True)
 
         self.showResults.clicked.connect(calc)
 
