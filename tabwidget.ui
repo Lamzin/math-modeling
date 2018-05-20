@@ -14,7 +14,7 @@
    <string>Лабораторна робота</string>
   </property>
   <property name="currentIndex">
-   <number>4</number>
+   <number>0</number>
   </property>
   <widget class="QWidget" name="tab1">
    <attribute name="title">
@@ -103,14 +103,14 @@
      <item row="0" column="2">
       <widget class="QLineEdit" name="lineEdit_L">
        <property name="text">
-        <string>2*x*diff(f, x, y) + diff(f, x)</string>
+        <string>diff(f, t, t) - 5**2*(diff(f, x1, x1) + diff(f, x2, x2))</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
       <widget class="QLabel" name="label_G_2">
        <property name="text">
-        <string>G(x, y, t)</string>
+        <string>G(x1, x2, t)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -120,7 +120,7 @@
      <item row="2" column="2">
       <widget class="QLineEdit" name="lineEdit_y">
        <property name="text">
-        <string>y*x**2 + x*y + t</string>
+        <string>x2*x1**2 + x1*x2 + t</string>
        </property>
       </widget>
      </item>
@@ -169,7 +169,7 @@
      <item row="3" column="1">
       <widget class="QLabel" name="label_u_2">
        <property name="text">
-        <string>u(x, y, t)</string>
+        <string>u(x1, x2, t)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -179,7 +179,7 @@
      <item row="2" column="1">
       <widget class="QLabel" name="label_y_2">
        <property name="text">
-        <string>y(x, y, t)</string>
+        <string>y(x1 x2, t)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -225,12 +225,12 @@
        </attribute>
        <column>
         <property name="text">
-         <string>x</string>
+         <string>x1</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>y</string>
+         <string>x2</string>
         </property>
        </column>
        <column>
@@ -328,12 +328,12 @@
        </attribute>
        <column>
         <property name="text">
-         <string>x</string>
+         <string>x1</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>y</string>
+         <string>x2</string>
         </property>
        </column>
        <column>
@@ -450,12 +450,12 @@
        </attribute>
        <column>
         <property name="text">
-         <string>x</string>
+         <string>x1</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>y</string>
+         <string>x2</string>
         </property>
        </column>
        <column>

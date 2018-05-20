@@ -101,7 +101,8 @@ class plot3D:
         for i in range(L * L):
             x = int(i / L)
             y = i % L
-            if x == L - 1 or y == L - 1: continue
+            if x == L - 1 or y == L - 1:
+                continue
             v = self.vertices[i]
             a = self.vertices[i + L].pos - v.pos
             b = self.vertices[i + 1].pos - v.pos
@@ -133,11 +134,11 @@ t = 0
 dt = 0.02
 
 
-def f(x, y):
+def f(x1, x2):
     return eval(sys.argv[1])
     # Return the value of the function of x and y:
 
-    return y * x ** 2 + x * y + t
+    return x2 * x1**2 + x1 * x2 + t
     # if abs(x - 0.5) + abs(y - 0.5) > 0.25:
     #     return 0
     # return 0.7 + 0.2 * sin(10 * x) * cos(10 * y) * sin(5 * t)

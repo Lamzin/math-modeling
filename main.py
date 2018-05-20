@@ -26,10 +26,13 @@ class Modeling(QTabWidget):
     def __init__tab1__stuff__(self):
         def calc():
             L = self.lineEdit_L.text()
+            c = 5
             y_sol = self.lineEdit_y.text()
             self.model = MathModelingSolver(L, y_sol)
             u = self.model.perturbation
-            self.lineEdit_G.setText("to_calc: " + L)
+            self.lineEdit_G.setText("diff(f, t, t) - %s**2*(diff(f, x1, x1) \
++ diff(f, x2, x2))" % c)
+            # self.lineEdit_G.setText("to_calc: " + L)
             self.lineEdit_u.setText(str(u))
         self.tab1_button_calc.clicked.connect(calc)
 
@@ -42,8 +45,9 @@ class Modeling(QTabWidget):
 
         def graphics_draw():
             self.tab2_graphics_scene.clear()
-            for x, y in self.model.spatial_area:
-                self.tab2_graphics_scene.addItem(QGraphicsEllipseItem(x - 1, y - 1, 2, 2))
+            for x1, x2 in self.model.spatial_area:
+                self.tab2_graphics_scene.addItem(
+                    QGraphicsEllipseItem(x1 - 1, x2 - 1, 2, 2))
             for i in range(1, len(self.model.spatial_area)):
                 self.tab2_graphics_scene.addItem(QGraphicsLineItem(
                     self.model.spatial_area[i - 1][0], self.model.spatial_area[i - 1][1],
@@ -55,11 +59,11 @@ class Modeling(QTabWidget):
                     self.model.spatial_area[0][0],
                     self.model.spatial_area[0][1]))
 
-        def add_point(x, y):
+        def add_point(x1, x2):
             self.tab2_table.setRowCount(len(self.model.spatial_area) + 1)
-            self.tab2_table.setItem(len(self.model.spatial_area), 0, QTableWidgetItem(str(x)))
-            self.tab2_table.setItem(len(self.model.spatial_area), 1, QTableWidgetItem(str(y)))
-            self.model.spatial_area.append((x, y))
+            self.tab2_table.setItem(len(self.model.spatial_area), 0, QTableWidgetItem(str(x1)))
+            self.tab2_table.setItem(len(self.model.spatial_area), 1, QTableWidgetItem(str(x2)))
+            self.model.spatial_area.append((x1, x2))
             graphics_draw()
 
         def graphics_mouse_click(QMouseEvent):
@@ -99,8 +103,8 @@ class Modeling(QTabWidget):
             self.tab3_graphics_scene.setSceneRect(
                 0, 0, self.tab3_graphics.size().width(), self.tab3_graphics.size().height())
             self.tab3_graphics_scene.clear()
-            for x, y in self.model.spatial_area:
-                self.tab3_graphics_scene.addItem(QGraphicsEllipseItem(x - 1, y - 1, 2, 2))
+            for x1, x2 in self.model.spatial_area:
+                self.tab3_graphics_scene.addItem(QGraphicsEllipseItem(x1 - 1, x2 - 1, 2, 2))
             for i in range(1, len(self.model.spatial_area)):
                 self.tab3_graphics_scene.addItem(QGraphicsLineItem(
                     self.model.spatial_area[i - 1][0], self.model.spatial_area[i - 1][1],
@@ -109,17 +113,17 @@ class Modeling(QTabWidget):
                 self.tab3_graphics_scene.addItem(QGraphicsLineItem(
                     self.model.spatial_area[0][0], self.model.spatial_area[0][1],
                     self.model.spatial_area[-1][0], self.model.spatial_area[-1][1]))
-            for x, y, _, _ in self.model.initial_conditions:
-                self.tab3_graphics_scene.addItem(QGraphicsEllipseItem(x - 1, y - 1, 2, 2))
+            for x1, x2, _, _ in self.model.initial_conditions:
+                self.tab3_graphics_scene.addItem(QGraphicsEllipseItem(x1 - 1, x2 - 1, 2, 2))
 
-        def add_point(x, y):
+        def add_point(x1, x2):
             self.tab3_table.setRowCount(len(self.model.initial_conditions) + 1)
-            self.tab3_table.setItem(len(self.model.initial_conditions), 0, QTableWidgetItem(str(x)))
-            self.tab3_table.setItem(len(self.model.initial_conditions), 1, QTableWidgetItem(str(y)))
-            exact = self.model.exact_solution_at_point(x, y)
+            self.tab3_table.setItem(len(self.model.initial_conditions), 0, QTableWidgetItem(str(x1)))
+            self.tab3_table.setItem(len(self.model.initial_conditions), 1, QTableWidgetItem(str(x2)))
+            exact = self.model.exact_solution_at_point(x1, x2)
             self.tab3_table.setItem(len(self.model.initial_conditions), 2, QTableWidgetItem(str(exact)))
-            self.tab3_table.setItem(len(self.model.initial_conditions), 3, QTableWidgetItem('0'))
-            self.model.initial_conditions.append((x, y, exact, 0))
+            self.tab3_table.setItem(len(self.model.initial_conditions), 3, QTableWidgetItem(str(exact)))
+            self.model.initial_conditions.append((x1, x2, exact, exact))
             graphics_draw()
 
         def graphics_mouse_click(QMouseEvent):
@@ -148,8 +152,8 @@ class Modeling(QTabWidget):
             self.tab4_graphics_scene.setSceneRect(
                 0, 0, self.tab4_graphics.size().width(), self.tab4_graphics.size().height())
             self.tab4_graphics_scene.clear()
-            for x, y in self.model.spatial_area:
-                self.tab4_graphics_scene.addItem(QGraphicsEllipseItem(x - 1, y - 1, 2, 2))
+            for x1, x2 in self.model.spatial_area:
+                self.tab4_graphics_scene.addItem(QGraphicsEllipseItem(x1 - 1, x2 - 1, 2, 2))
             for i in range(1, len(self.model.spatial_area)):
                 self.tab4_graphics_scene.addItem(QGraphicsLineItem(
                     self.model.spatial_area[i - 1][0], self.model.spatial_area[i - 1][1],
@@ -158,19 +162,19 @@ class Modeling(QTabWidget):
                 self.tab4_graphics_scene.addItem(QGraphicsLineItem(
                     self.model.spatial_area[0][0], self.model.spatial_area[0][1],
                     self.model.spatial_area[-1][0], self.model.spatial_area[-1][1]))
-            for x, y, _, _, _ in self.model.boundary_conditions:
-                self.tab4_graphics_scene.addItem(QGraphicsEllipseItem(x - 1, y - 1, 2, 2))
+            for x1, x2, _, _, _ in self.model.boundary_conditions:
+                self.tab4_graphics_scene.addItem(QGraphicsEllipseItem(x1 - 1, x2 - 1, 2, 2))
 
-        def add_point(x, y):
+        def add_point(x1, x2):
             self.tab4_table.setRowCount(len(self.model.boundary_conditions) + 1)
-            self.tab4_table.setItem(len(self.model.boundary_conditions), 0, QTableWidgetItem(str(x)))
-            self.tab4_table.setItem(len(self.model.boundary_conditions), 1, QTableWidgetItem(str(y)))
+            self.tab4_table.setItem(len(self.model.boundary_conditions), 0, QTableWidgetItem(str(x1)))
+            self.tab4_table.setItem(len(self.model.boundary_conditions), 1, QTableWidgetItem(str(x2)))
             t = self.doubleSpinBox_t.value()
             self.tab4_table.setItem(len(self.model.boundary_conditions), 2, QTableWidgetItem(str(t)))
-            exact = self.model.exact_solution_at_point(x, y, t)
+            exact = self.model.exact_solution_at_point(x1, x2, t)
             self.tab4_table.setItem(len(self.model.boundary_conditions), 3, QTableWidgetItem(str(exact)))
-            self.tab4_table.setItem(len(self.model.boundary_conditions), 4, QTableWidgetItem('0'))
-            self.model.boundary_conditions.append((x, y, t, exact, 0))
+            self.tab4_table.setItem(len(self.model.boundary_conditions), 4, QTableWidgetItem(str(exact)))
+            self.model.boundary_conditions.append((x1, x2, t, exact, exact))
             graphics_draw()
 
         def graphics_mouse_click(QMouseEvent):
@@ -199,10 +203,7 @@ class Modeling(QTabWidget):
 
             dir_path = os.path.dirname(os.path.realpath(__file__))
             print(os.path.join(dir_path, 'vpython_example.py'))
-            if os.name == 'nt':  # windows
-                pass
-                # call(["taskkill python {}".format(os.path.join(dir_path, 'vpython_example.py'))], shell=True)
-            else:
+            if os.name != 'nt':  # not windows
                 call(["pkill python {}".format(os.path.join(dir_path, 'vpython_example.py'))], shell=True)
             Popen(["python", os.path.join(dir_path, 'vpython_example.py'), self.lineEdit_y.text()], shell=True)
 

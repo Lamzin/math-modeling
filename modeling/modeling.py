@@ -3,8 +3,8 @@
 # from scipy.integrate import tplquad
 from sympy import *
 
-x = Symbol('x')
-y = Symbol('y')
+x1 = Symbol('x1')
+x2 = Symbol('x2')
 t = Symbol('t')
 a = Symbol('a')
 b = Symbol('b')
@@ -26,15 +26,15 @@ class MathModelingSolver(object):
         '''
         Continuously analytical modeling of the dynamics of linearly distributed systems with discretely observed
         initial-boundary state.
-        :param(array of  (x, y, t,lambda p : (x, y, t)) differential_operator: L(x, y, t).
-        :param(lambda x, y, t) greens_function: G(x, y, t).
-        :param(lambda x, y, t) exact_solution: Y(x, y, t).
-        :param(lambda x, y, t) perturbation: U(x, y, t).
-        :param(array of (x, y) tuples) spatial_area: array with coordinates of spatial area vertexes.
-        :param(array of (x, y, f) tuples) initial_conditions: array with initial conditions(t=0), i. e. tuple contains
-            (x, y) - point coordinates and f - function value at the moment of time t=0.
-        :param(array of (x, y, t, f) tuples) boundary_conditions: array with boundary conditions, i. e. tuple contains
-            (x, y) - point coordinates and f - function value at the moment of time t.
+        :param(array of  (x1, x2, t,lambda p : (x1, x2, t)) differential_operator: L(x1, x2, t).
+        :param(lambda x1, x2, t) greens_function: G(x1, x2, t).
+        :param(lambda x1, x2, t) exact_solution: Y(x1, x2, t).
+        :param(lambda x1, x2, t) perturbation: U(x1, x2, t).
+        :param(array of (x1, x2) tuples) spatial_area: array with coordinates of spatial area vertexes.
+        :param(array of (x1, x2, f) tuples) initial_conditions: array with initial conditions(t=0), i. e. tuple contains
+            (x1, x2) - point coordinates and f - function value at the moment of time t=0.
+        :param(array of (x1, x2, t, f) tuples) boundary_conditions: array with boundary conditions, i. e. tuple contains
+            (x1, x2) - point coordinates and f - function value at the moment of time t.
         :param(const T) right border of time interval
         '''
         self.differential_operator = differential_operator
@@ -50,8 +50,8 @@ class MathModelingSolver(object):
         f = self.exact_solution
         self.perturbation = eval(self.differential_operator)
 
-    def exact_solution_at_point(self, x_, y_, t_=0):
-        return lambdify((x, y, t), self.exact_solution, 'numpy')(x_, y_, t_)
+    def exact_solution_at_point(self, x1_, x2_, t_=0):
+        return lambdify((x1, x2, t), self.exact_solution, 'numpy')(x1_, x2_, t_)
 
     def solve(self):
         count_vertex = len(self.spatial_area)
@@ -61,17 +61,17 @@ class MathModelingSolver(object):
             y_infinity += integrate(func, ())
         '''
         Will be called from `main` code.
-        :return(lambda x, y, t): math modeling solution.
+        :return(lambda x1, x2, t): math modeling solution.
         '''
         pass
 
 
-# L = '2*x*diff(f, x, y) + diff(f, x)'
+# L = '2*x1*diff(f, x1, x2) + diff(f, x1)'
 # G = 't*abs(t)'
-# Y = eval('y*x**2 + x*y + t')
+# Y = eval('x2*x1**2 + x1*x2 + t')
 # f = Y
 # print(Y* Y)
 # model = MathModelingSolver(L, Y, greens_function=G)
 # print(model.perturbation)
 # print(model.greens_function)
-# print(model.exact_solution_at_point(x_=1, y_=2))
+# print(model.exact_solution_at_point(x1_=1, x2_=2))
