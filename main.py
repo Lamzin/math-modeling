@@ -196,8 +196,14 @@ class Modeling(QTabWidget):
             print('clicked: {}'.format(self.lineEdit_y.text()))
 
             from subprocess import Popen, call
-            call(["pkill python3 /Users/lama/git/lamzin/3d/vpython_example.py"], shell=True)
-            Popen(['python3 /Users/lama/git/lamzin/3d/vpython_example.py "{}"'.format(self.lineEdit_y.text())], shell=True)
+
+            dir_path = os.path.dirname(os.path.realpath(__file__))
+
+            if os.name == 'nt':  # windows
+                call(["taskkill python3 {}".format(os.path.join(dir_path, 'vpython_example.py'))], shell=True)
+            else:
+                call(["pkill python3 {}".format(os.path.join(dir_path, 'vpython_example.py'))], shell=True)
+            Popen(['python3 {} "{}"'.format(os.path.join(dir_path, 'vpython_example.py'), self.lineEdit_y.text())], shell=True)
 
         self.showResults.clicked.connect(calc)
 
