@@ -3,9 +3,14 @@
 # VPython
 
 import sys
-
+import pickle
 from vpython import scene, cylinder, text, vec, cross, quad, vertex, color, sin, cos, rate
 
+# from sympy import *
+
+# x1 = Symbol('x1')
+# x2 = Symbol('x2')
+# t = Symbol('t')
 
 scene.width = 1500
 scene.height = 800
@@ -30,7 +35,7 @@ In GlowScript programs:
 # MathJax.Hub.Queue(["Typeset",MathJax.Hub]) # format the LaTeX; see http://www.glowscript.org/docs/VPythonDocs/MathJax.html
 
 class plot3D:
-    def __init__(self, f, xmin, xmax, ymin, ymax, zmin, zmax):
+    def __init__(self, f, xmin, xmax, ymin, ymax, zmin=0, zmax=1):
         # The x axis is labeled y, the z axis is labeled x, and the y axis is labeled z.
         # This is done to mimic fairly standard practive for plotting
         #     the z value of a function of x and y.
@@ -51,14 +56,34 @@ class plot3D:
             self.ymax = 1
         else:
             self.ymax = ymax
-        if not zmin:
-            self.zmin = 0
-        else:
-            self.zmin = zmin
-        if not zmax:
-            self.zmax = 1
-        else:
-            self.zmax = zmax
+
+        self.data_path = 'data'
+        with open(self.data_path + '/spatial_area', 'rb') as fp:
+            self.spatial_area = [(p[0] / 10, p[1] / 10) for p in pickle.load(fp)]
+        self.count_vertex = len(self.spatial_area)
+
+        self.zmin = self.f(self.spatial_area[0][0] * 10, self.spatial_area[0][1] * 10)
+        self.zmax = self.zmin
+
+        global t, T
+        for x1, x2 in self.spatial_area:
+            x1 *= 10
+            x2 *= 10
+            val = self.f(x1, x2)
+            if val < self.zmin:
+                self.zmin = val
+            if val > self.zmax:
+                self.zmax = val
+            copy_t = t
+            t = T
+            val = self.f(x1, x2)
+            if val < self.zmin:
+                self.zmin = val
+            if val > self.zmax:
+                self.zmax = val
+            t = copy_t
+        print(self.zmin, self.zmax)
+
 
         R = L / 100
         d = L - 2
@@ -82,8 +107,10 @@ class plot3D:
 
     def evaluate(self, x, y):
         d = L - 2
-        return (d / (self.zmax - self.zmin)) * (
-        self.f(self.xmin + x * (self.xmax - self.xmin) / d, self.ymin + y * (self.ymax - self.ymin) / d) - self.zmin)
+        return (
+            (d / (self.zmax - self.zmin)) *
+            (self.f(self.xmin + x * (self.xmax - self.xmin) / d, self.ymin + y * (self.ymax - self.ymin) / d) - self.zmin)
+        )
 
     def make_quads(self):
         # Create the quad objects, based on the vertex objects already created.
@@ -101,8 +128,7 @@ class plot3D:
         for i in range(L * L):
             x = int(i / L)
             y = i % L
-            if x == L - 1 or y == L - 1:
-                continue
+            if x == L - 1 or y == L - 1: continue
             v = self.vertices[i]
             a = self.vertices[i + L].pos - v.pos
             b = self.vertices[i + 1].pos - v.pos
@@ -117,9 +143,10 @@ class plot3D:
         self.make_normals()
 
     def make_vertex(self, x, y, value):
-        print(x, y)
-        if abs(x - 50) + abs(y - 50) > 25:
-            return vertex(pos=vec(y, value, x), color=color.black, normal=vec(0, 1, 0))
+        for i in range(self.count_vertex):
+            if (x - self.spatial_area[i][0])*(self.spatial_area[(i + 1) % self.count_vertex][1] - self.spatial_area[i][1]) - \
+                    (y - self.spatial_area[i][1]) * (self.spatial_area[(i + 1) % self.count_vertex][0] - self.spatial_area[i][0]) > 0:
+                return vertex(pos=vec(y, value, x), color=color.black, normal=vec(0, 1, 0))
         return vertex(pos=vec(y, value, x), color=color.cyan, normal=vec(0, 1, 0))
 
     def get_vertex(self, x, y):
@@ -129,22 +156,35 @@ class plot3D:
         return self.get_vertex(x, y).pos
 
 
-T = 5
+T = 100
 t = 0
-dt = 0.02
+dt = 1
+
+path = 'data'
+with open(path + '/x_1', 'rb') as fp:
+    x_1 = pickle.load(fp)
+with open(path + '/x_2', 'rb') as fp:
+    x_2= pickle.load(fp)
+with open(path + '/t', 'rb') as fp:
+    t_ = pickle.load(fp)
+with open(path + '/sensor', 'rb') as fp:
+    sensor = pickle.load(fp)
+with open(path + '/exact', 'rb') as fp:
+    exact = pickle.load(fp)
 
 
-def f(x1, x2):
-    return eval(sys.argv[1])
-    # Return the value of the function of x and y:
+def f(x, y):
+    res = sys.argv[1]
+    res = eval(res)
 
-    return x2 * x1**2 + x1 * x2 + t
-    # if abs(x - 0.5) + abs(y - 0.5) > 0.25:
-    #     return 0
-    # return 0.7 + 0.2 * sin(10 * x) * cos(10 * y) * sin(5 * t)
+    c = 0.1
+    print(x, y, t, res)
+    for i in range(len(exact)):
+        res += (sensor[i] - exact[i]) / (1 + c*((x - x_1[i])**2 + (y - x_2[i])**2 + (t - t_[i])**2))
+    return res
 
+p = plot3D(f, 0, 1000, 0, 1000)  # function, xmin, xmax, ymin, ymax (defaults 0, 1, 0, 1)
 
-p = plot3D(f, 0, 1, 0, 1, 0, 1)  # function, xmin, xmax, ymin, ymax (defaults 0, 1, 0, 1, 0, 1)
 
 run = True
 

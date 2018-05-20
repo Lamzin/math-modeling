@@ -51,7 +51,9 @@ class MathModelingSolver(object):
         self.perturbation = eval(self.differential_operator)
 
     def exact_solution_at_point(self, x1_, x2_, t_=0):
-        return lambdify((x1, x2, t), self.exact_solution, 'numpy')(x1_, x2_, t_)
+        return lambdify(
+            (x1, x2, t), self.exact_solution, 'numpy'
+        )(x1_, x2_, t_)
 
     def solve(self):
         count_vertex = len(self.spatial_area)
